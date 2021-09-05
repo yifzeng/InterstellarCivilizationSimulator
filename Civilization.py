@@ -13,6 +13,9 @@ class Civilizaiton():
         self.attack = 0
         self.defense = 0
         self.blackholeTrans = 0
+        self.ownedSpace = []
+        self.frontierSpace = []
+        self.occupyingSpace = []
 
         def initialize(self):
             self.character = Character.getCharacter()
@@ -35,5 +38,5 @@ class Civilizaiton():
 
         initialize(self)
 
-for i in range(10):
-    print(Civilizaiton().__dict__)
+# for i in range(10):
+#     print(Civilizaiton().__dict__)
