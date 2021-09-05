@@ -1,7 +1,9 @@
 from Resource import Resource
+
+
 class Grid():
     def __init__(self, x, y):
-        self.coordinate=(x,y)        
+        self.coordinate = (x, y)
         self.resource = Resource()
         self.isBlackhole = False
         self.owner = None
@@ -16,14 +18,9 @@ class Grid():
 
     def getResourceAmount(self):
         return self.resource.getAmount()
-    
+
     def Blackhole(self):
         return self.isBlackhole
-    
+
     def getOwner(self):
         return self.owner
-
-
-
-    
-
