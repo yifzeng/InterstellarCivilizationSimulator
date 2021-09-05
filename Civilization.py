@@ -1,4 +1,4 @@
-import Math
+
 class Civilizaiton():
 
     def __init__(self):
@@ -13,6 +13,5 @@ class Civilizaiton():
         
 
         def initialize(self):
-            int num = (int) ((Math.random() * 9 + 1) * 100000);
-            self
+            pass
 
