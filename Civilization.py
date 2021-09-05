@@ -1,5 +1,6 @@
 import Character
 import Tools
+from Grid import Grid
 
 
 class Civilizaiton():
@@ -13,8 +14,8 @@ class Civilizaiton():
         self.attack = 0
         self.defense = 0
         self.blackholeTrans = 0
-        self.ownedSpace = (x, y)
-        self.frontierSpace = []
+        self.ownedSpace = [(x, y)]
+        self.frontierSpace = [(x, y)]
         self.occupyingSpace = []
         self.initializeEntity()
 
@@ -35,3 +36,6 @@ class Civilizaiton():
             self.attack = 200
 
         self.strength = self.life * (self.tech / 100) * ((self.attack + self.defense + self.blackholeTrans) / 100)
+
+    def expand(self):
+        self.frontierSpace
