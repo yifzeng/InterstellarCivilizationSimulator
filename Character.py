@@ -8,4 +8,3 @@ class Character():
     def getCharacter(self):
         return self.character
 
-print(Character().getCharacter())
