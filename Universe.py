@@ -4,11 +4,11 @@ import Tools
 
 
 class Universe():
-    def __init__(self, width, height, civilnum):
-        self.width = width
-        self.height = height
+    def __init__(self, rows, cols, civilnum):
+        self.rows = rows
+        self.cols = cols
         self.civilnum = civilnum
-        self.bg_map = [[Grid(x, y) for x in range(0, self.width)] for y in range(0, self.height)]
+        self.bg_map = [[Grid(row, col) for col in range(0, self.cols)] for row in range(0, self.rows)]
         self.civillist = []
         self.civildict = {}
 
@@ -17,46 +17,46 @@ class Universe():
     def initializeCivil(self, civilnum):
         i = 0
         while i < civilnum:
-            g = self.bg_map[Tools.generateRandomNum(self.width)][Tools.generateRandomNum(self.height)]
+            randomRow = Tools.generateRandomNum(self.rows)
+            randomCol = Tools.generateRandomNum(self.cols)
+            g = self.bg_map[randomRow][randomCol]
             if not g.Blackhole() and g.getOwner() is None:
                 c = Civilizaiton(g)
                 self.civillist.append(c)
                 self.civildict[c.id] = c
                 i = i + 1
 
-    def getGrid(self, x, y):
-        return self.bg_map[x][y]
+    def getGrid(self, row, col):
+        return self.bg_map[row][col]
 
     def getExpandableGrid(self, grid):
         result = []
-        x = grid.getX()
-        y = grid.getY()
-        xl = x - 1
-        xr = x + 1
-        yu = y - 1
-        yd = y + 1
+        (row, col) = grid.getCoordinate()
+        coll = col - 1
+        colr = col + 1
+        rowu = row - 1
+        rowd = row + 1
+        if coll >= 0 and self.isExpandable(self.getGrid(row, coll)):
+            result.append(self.getGrid(row, coll))
+        if colr < self.cols and self.isExpandable(self.getGrid(row, colr)):
+            result.append(self.getGrid(row, colr))
+        if rowu >= 0 and self.isExpandable(self.getGrid(rowu, col)):
+            result.append(self.getGrid(rowu, col))
+        if rowd < self.rows and self.isExpandable(self.getGrid(rowd, col)):
+            result.append(self.getGrid(rowd, col))
 
-        if xl >= 0 and self.isExpandable(self.getGrid(xl, y)):
-            result.append(self.getGrid(xl, y))
-        if xr <= self.width and self.isExpandable(self.getGrid(xr, y)):
-            result.append(self.getGrid(xr, y))
-        if yu >= 0 and self.isExpandable(self.getGrid(x, yu)):
-            result.append(self.getGrid(x, yu))
-        if yd <= self.height and self.isExpandable(self.getGrid(x, yd)):
-            result.append(self.getGrid(x, yd))
-
-        if xl >= 0 and yu >= 0 and self.isExpandable(self.getGrid(xl, yu)):
-            result.append(self.getGrid(xl, yu))
-        if xr <= self.width and yu >= 0 and self.isExpandable(self.getGrid(xr, yu)):
-            result.append(self.getGrid(xr, yu))
-        if xl >= 0 and yd <= self.height and self.isExpandable(self.getGrid(xl, yd)):
-            result.append(self.getGrid(xl, yd))
-        if xr <= self.width and yd <= self.height and self.Expandable(self.getGrid(xr, yd)):
-            result.append(self.getGrid(xr, yd))
+        if coll >= 0 and rowu >= 0 and self.isExpandable(self.getGrid(rowu, coll)):
+            result.append(self.getGrid(rowu, coll))
+        if colr < self.cols and rowu >= 0 and self.isExpandable(self.getGrid(rowu, colr)):
+            result.append(self.getGrid(rowu, colr))
+        if coll >= 0 and rowd < self.rows and self.isExpandable(self.getGrid(rowd, coll)):
+            result.append(self.getGrid(rowd, coll))
+        if colr < self.cols and rowd < self.rows and self.isExpandable(self.getGrid(rowd, colr)):
+            result.append(self.getGrid(rowd, colr))
 
         return result
 
-    def isExpandable(grid):
+    def isExpandable(self, grid):
         if grid.Blackhole() or grid.getOwner() is not None:
             return False
         else:
@@ -66,4 +66,3 @@ class Universe():
 # u = Universe(100, 100, 3)
 # for c in u.civillist:
 #     print(c.__dict__)
-# print(u.civildict)

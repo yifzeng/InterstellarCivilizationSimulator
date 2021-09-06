@@ -1,4 +1,5 @@
 import Character
+import Tools
 from Grid import Grid
 import random
 
@@ -7,6 +8,7 @@ class Civilizaiton():
     def __init__(self, grid):
         self.character = None
         self.id = ""
+        self.color = (0, 0, 0)
         self.life = 0
         self.alive = False
         self.tech = 0
@@ -20,11 +22,12 @@ class Civilizaiton():
         self.occupyingSpace = []
 
         grid.occupyTime = 0
-        self.initializeEntity()
+        self.init()
 
-    def initializeEntity(self):
+    def init(self):
         self.character = Character.getCharacter()
-        self.id = self.character + self.tool.generateNumber(6)
+        self.id = self.character + Tools.generateNumber(6)
+        self.color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
         self.life = 10000
         self.tech = 100
         self.alive = True

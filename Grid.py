@@ -2,8 +2,8 @@ from Resource import Resource
 
 
 class Grid():
-    def __init__(self, x, y):
-        self.coordinate = (x, y)
+    def __init__(self, row, col):
+        self.coordinate = (row, col)
         self.resource = Resource()
         self.isBlackhole = False
         self.owner = None
