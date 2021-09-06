@@ -29,7 +29,7 @@ keep_going = True
 bg_color = (200, 200, 200)
 
 # 定义格子的行列
-COL = 100
+COL = 80
 ROW = 60
 # 网格的宽度和高度
 cell_width = width / COL
