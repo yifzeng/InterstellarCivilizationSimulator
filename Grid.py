@@ -7,6 +7,7 @@ class Grid():
         self.resource = Resource()
         self.isBlackhole = False
         self.owner = None
+
         if self.resource.getType() == "B":
             self.isBlackhole = True
 

@@ -8,6 +8,7 @@ class Civilizaiton():
         self.character = None
         self.id = ""
         self.life = 0
+        self.alive = False
         self.tech = 0
         self.lifeConsume = 0
         self.strength = 0
@@ -18,14 +19,15 @@ class Civilizaiton():
         self.frontierSpace = [grid]
         self.occupyingSpace = []
 
+        grid.occupyTime = 0
         self.initializeEntity()
 
     def initializeEntity(self):
         self.character = Character.getCharacter()
         self.id = self.character + self.tool.generateNumber(6)
         self.life = 10000
-        self.tech = 10
-
+        self.tech = 100
+        self.alive = True
         if self.character == "A":
             self.lifeConsume = 0.01
             self.blackholeTrans = 10
@@ -36,4 +38,7 @@ class Civilizaiton():
             self.lifeConsume = 0.04
             self.attack = 200
 
-        self.strength = self.life * (self.tech / 100) * ((self.attack + self.defense + self.blackholeTrans) / 100)
+        self.strength = self.strengthCal()
+
+    def strengthCal(self):
+        return (self.life / 100) * (self.tech / 20) * ((self.attack + self.defense + self.blackholeTrans) / 100)
