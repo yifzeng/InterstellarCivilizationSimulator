@@ -24,3 +24,9 @@ class Grid():
 
     def getOwner(self):
         return self.owner
+
+    def getX(self):
+        return self.getCoordinate()[0]
+
+    def getY(self):
+        return self.getCoordinate()[1]

@@ -1,10 +1,10 @@
 import Character
-import Tools
 from Grid import Grid
+import random
 
 
 class Civilizaiton():
-    def __init__(self, x, y):
+    def __init__(self, grid):
         self.character = None
         self.id = ""
         self.life = 0
@@ -14,14 +14,15 @@ class Civilizaiton():
         self.attack = 0
         self.defense = 0
         self.blackholeTrans = 0
-        self.ownedSpace = [(x, y)]
-        self.frontierSpace = [(x, y)]
+        self.ownedSpace = [grid]
+        self.frontierSpace = [grid]
         self.occupyingSpace = []
+
         self.initializeEntity()
 
     def initializeEntity(self):
         self.character = Character.getCharacter()
-        self.id = self.character + Tools.generateNumber(6)
+        self.id = self.character + self.tool.generateNumber(6)
         self.life = 10000
         self.tech = 10
 
@@ -36,6 +37,3 @@ class Civilizaiton():
             self.attack = 200
 
         self.strength = self.life * (self.tech / 100) * ((self.attack + self.defense + self.blackholeTrans) / 100)
-
-    def expand(self):
-        self.frontierSpace
