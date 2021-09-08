@@ -1,6 +1,14 @@
 import random
 import string
 
+SEQ = 0
+
+
+def generateSeq(digit):
+    global SEQ
+    SEQ = SEQ + 1
+    return ("%0" + str(digit) + "d") % SEQ
+
 
 def generateNumber(digit):
     seeds = string.digits

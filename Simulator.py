@@ -29,8 +29,8 @@ keep_going = True
 bg_color = (200, 200, 200)
 
 # 定义格子的行列
-COL = 80
-ROW = 60
+COL = 30
+ROW = 30
 # 网格的宽度和高度
 cell_width = width / COL
 cell_height = height / ROW
@@ -58,7 +58,16 @@ def draw_rect(univ):
             pygame.draw.rect(screen, c.color, (left, top, cell_width, cell_height))
 
 
-civilnum = 10
+def draw_blackhole(univ):
+    for grid in univ.blackhole_map:
+        (row, col) = grid.getCoordinate()
+        left = col * cell_width
+        top = row * cell_height
+        # 绘制
+        pygame.draw.rect(screen, (0, 0, 0), (left, top, cell_width, cell_height))
+
+
+civilnum = 3
 
 univ = Universe(ROW, COL, civilnum)
 
@@ -69,6 +78,7 @@ while keep_going:
 
     # 绘制网格
     draw_grid()
+    draw_blackhole(univ)
     Control.control(univ)
     # 绘制
     draw_rect(univ)

@@ -8,11 +8,26 @@ class Universe():
         self.rows = rows
         self.cols = cols
         self.civilnum = civilnum
-        self.bg_map = [[Grid(row, col) for col in range(0, self.cols)] for row in range(0, self.rows)]
+        # self.bg_map = [[Grid(row, col) for col in range(0, self.cols)] for row in range(0, self.rows)]
+        (mapR, blackholeR) = self.creatMap(rows, cols)
+        self.bg_map = mapR
+        self.blackhole_map = blackholeR
         self.civillist = []
         self.civildict = {}
 
         self.initializeCivil(civilnum)
+
+    def creatMap(self, rows, cols):
+        mapResult = []
+        blackholeResult = []
+        for row in range(0, rows):
+            mapResult.append([])
+            for col in range(0, cols):
+                grid = Grid(row, col)
+                if grid.Blackhole():
+                    blackholeResult.append(grid)
+                mapResult[row].append(grid)
+        return mapResult, blackholeResult
 
     def initializeCivil(self, civilnum):
         i = 0

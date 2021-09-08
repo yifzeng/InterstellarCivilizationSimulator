@@ -26,8 +26,10 @@ class Civilizaiton():
 
     def init(self):
         self.character = Character.getCharacter()
-        self.id = self.character + Tools.generateNumber(6)
-        self.color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+        self.id = self.character + Tools.generateSeq(6)
+        self.color = (random.randint(1, 255), random.randint(1, 255), random.randint(1, 255))
+        if self.color == (200, 200, 200) or self.color == (255, 255, 255):
+            self.color = (random.randint(1, 255), random.randint(1, 255), random.randint(1, 255))
         self.life = 10000
         self.tech = 100
         self.alive = True
