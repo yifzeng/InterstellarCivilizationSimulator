@@ -13,6 +13,7 @@ class Civilizaiton():
         self.alive = False
         self.tech = 0
         self.lifeConsume = 0
+        self.speed = 0
         self.strength = 0
         self.attack = 0
         self.defense = 0
@@ -33,6 +34,7 @@ class Civilizaiton():
         self.life = 10000
         self.tech = 100
         self.alive = True
+        self.speed = 1
         if self.character == "A":
             self.lifeConsume = 0.01
             self.blackholeTrans = 10

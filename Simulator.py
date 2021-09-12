@@ -1,8 +1,11 @@
-from Universe import Universe
-import Control
+import sys
 import time
+
 import pygame
 from pygame.locals import *
+
+import Control
+from Universe import Universe
 
 
 class Point:
@@ -28,16 +31,9 @@ keep_going = True
 #颜色
 bg_color = (200, 200, 200)
 
-# 定义格子的行列
-COL = 30
-ROW = 30
-# 网格的宽度和高度
-cell_width = width / COL
-cell_height = height / ROW
-
 
 # 绘制网格
-def draw_grid():
+def draw_grid(ROW, COL):
     # 绘制行
     for r in range(ROW):
         pygame.draw.line(screen, (0, 200, 100), (0, r * cell_height), (width, r * cell_height))
@@ -67,27 +63,46 @@ def draw_blackhole(univ):
         pygame.draw.rect(screen, (0, 0, 0), (left, top, cell_width, cell_height))
 
 
-civilnum = 3
+def main(civilnum, ROW, COL):
+    round = 0
+    univ = Universe(ROW, COL, civilnum)
+    global keep_going
+    while keep_going:
+        round = round + 1
+        print("============================== " + str(round) + " =========================")
+        # 背景色填充
+        screen.fill(bg_color)
 
-univ = Universe(ROW, COL, civilnum)
+        # 绘制网格
+        draw_grid(ROW, COL)
+        draw_blackhole(univ)
+        Control.control(univ)
+        # 绘制
+        draw_rect(univ)
 
-while keep_going:
+        pygame.display.flip()  # 刷新屏幕
+        # 帧速率
+        clock.tick(10)
 
-    # 背景色填充
-    screen.fill(bg_color)
+    pygame.quit()
 
-    # 绘制网格
-    draw_grid()
-    draw_blackhole(univ)
-    Control.control(univ)
-    # 绘制
-    draw_rect(univ)
 
-    pygame.display.flip()  # 刷新屏幕
-    # 帧速率
-    clock.tick(10)
+# 定义格子的行列
+COL = 50
+ROW = 50
+civilnum = 6
+# 网格的宽度和高度
+cell_width = width / COL
+cell_height = height / ROW
 
-pygame.quit()
+if __name__ == '__main__':
+
+    try:
+        main(civilnum, ROW, COL)
+    except KeyboardInterrupt:
+        pygame.quit()
+        sys.exit(0)
+
 # width = 10
 # height = 10
 # civilnum = 3
