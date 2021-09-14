@@ -69,14 +69,13 @@ def main(civilnum, ROW, COL):
     global keep_going
     while keep_going:
         round = round + 1
-        print("============================== " + str(round) + " =========================")
         # 背景色填充
         screen.fill(bg_color)
 
         # 绘制网格
         draw_grid(ROW, COL)
         draw_blackhole(univ)
-        Control.control(univ)
+        keep_going = Control.control(univ)
         # 绘制
         draw_rect(univ)
 
@@ -88,9 +87,9 @@ def main(civilnum, ROW, COL):
 
 
 # 定义格子的行列
-COL = 50
-ROW = 50
-civilnum = 6
+COL = 100
+ROW = 100
+civilnum = 10
 # 网格的宽度和高度
 cell_width = width / COL
 cell_height = height / ROW

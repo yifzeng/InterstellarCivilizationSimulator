@@ -11,6 +11,9 @@ class Grid():
         if self.resource.getType() == "B":
             self.isBlackhole = True
 
+    def deductResourceAmount(self, amount):
+        self.resource.deductAmount(amount)
+
     def getCoordinate(self):
         return self.coordinate
 

@@ -18,34 +18,41 @@ class Civilizaiton():
         self.attack = 0
         self.defense = 0
         self.blackholeTrans = 0
-        self.ownedSpace = [grid]
+        self.ownedSpace = []
         self.frontierSpace = [grid]
-        self.occupyingSpace = []
+        self.occupyingSpace = [grid]
 
-        grid.occupyTime = 0
         self.init()
 
     def init(self):
         self.character = Character.getCharacter()
         self.id = self.character + Tools.generateSeq(6)
+        self.frontierSpace[0].owner = self.id
         self.color = (random.randint(1, 255), random.randint(1, 255), random.randint(1, 255))
         if self.color == (200, 200, 200) or self.color == (255, 255, 255):
             self.color = (random.randint(1, 255), random.randint(1, 255), random.randint(1, 255))
-        self.life = 10000
-        self.tech = 100
+        self.life = 10
+        self.tech = 0.0001
         self.alive = True
-        self.speed = 1
         if self.character == "A":
-            self.lifeConsume = 0.01
+            self.lifeConsume = 1
             self.blackholeTrans = 10
         elif self.character == "F":
-            self.lifeConsume = 0.02
+            self.lifeConsume = 2
             self.defense = 100
         else:
-            self.lifeConsume = 0.04
+            self.lifeConsume = 4
             self.attack = 200
 
         self.strength = self.strengthCal()
 
     def strengthCal(self):
-        return (self.life / 100) * (self.tech / 20) * ((self.attack + self.defense + self.blackholeTrans) / 100)
+        return round((self.life * self.tech), 6)
+
+    def getStrength(self):
+        self.strength = self.strengthCal()
+        return self.strength
+
+    def display(self):
+        return "id:%s character:%s life:%s tech:%s strength:%s attack:%s defense:%s" % (
+            self.life, self.character, self.life, self.tech, self.strength, self.attack, self.defense)

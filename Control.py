@@ -8,11 +8,20 @@ def control(univ):
     for c in civils:
         civilExpand(c, univ)
         occupyProcess(c, univ)
+
     if countAlive(univ) == 0:
         for c in civils:
-            print(c.id + " has taken " + str(len(c.ownedSpace)))
+            c.display()
         return False
     return True
+
+
+def showAllOwnedGrid(civil):
+    allGrid = []
+    for i in civil.ownedSpace:
+        allGrid.append(i.getCoordinate())
+    allGrid.sort()
+    print(allGrid)
 
 
 def countAlive(univ):
@@ -24,44 +33,60 @@ def countAlive(univ):
 
 
 def civilExpand(civil, univ):
-    civil.speed = 1 + len(civil.ownedSpace) // 20
-    time = 0
-    print(civil.id + ":  " + "civilExpand speed  " + str(civil.speed) + "  time:" + str(time))
-    while len(civil.frontierSpace) > 0:
-        print(civil.id + ":  " + "len(civil.frontierSpace) " + str(len(civil.frontierSpace)) + " time:" + str(time))
 
+    while len(civil.frontierSpace) > 0:
         random.shuffle(civil.frontierSpace)
-        grid = random.choice(civil.frontierSpace)
-        expandGrid = univ.getExpandableGrid(grid)
-        print(civil.id + ":  " + "len(expandGrid) " + str(len(expandGrid)) + " time:" + str(time))
+        frontierGrid = random.choice(civil.frontierSpace)
+        expandGrid = univ.getExpandableGrid(frontierGrid)
         if len(expandGrid) > 0:
             occupyGrid = random.choice(expandGrid)
             occupyGrid.owner = civil.id
             civil.occupyingSpace.append(occupyGrid)
-            time = time + 1
-            if time == civil.speed:
-                break
+            civil.frontierSpace.append(occupyGrid)
+            break
         else:
-            civil.frontierSpace.remove(grid)
-            if len(civil.frontierSpace) == 0:
+            civil.frontierSpace.remove(frontierGrid)
+            if len(civil.frontierSpace) == 0 and len(civil.occupyingSpace) == 0:
                 civil.alive = False
                 break
 
 
 def occupyProcess(civil, univ):
-    print(civil.id + ":  " + "len(civil.occupyingSpace) " + str(len(civil.occupyingSpace)))
-    while len(civil.occupyingSpace) > 0:
-        grid = random.choice(civil.occupyingSpace)
-        civil.ownedSpace.append(grid)
-        civil.frontierSpace.append(grid)
-        civil.occupyingSpace.remove(grid)
 
-        if grid.getResourceType() == "L":
-            civil.life = civil.life + grid.getResourceAmount()
-        elif grid.getResourceType() == "S":
-            civil.tech = civil.tech + grid.getResourceAmount()
+    for grid in civil.occupyingSpace.copy():
+
+        if grid.getResourceAmount() > 0:
+            if grid.getResourceType() == "L":
+                if grid.getResourceAmount() >= civil.getStrength():
+                    civil.life = civil.life + civil.getStrength()
+                    grid.deductResourceAmount(civil.getStrength())
+                else:
+                    civil.life = civil.life + civil.getStrength() - grid.getResourceAmount()
+                    grid.deductResourceAmount(grid.getResourceAmount())
+            elif grid.getResourceType() == "S":
+                civil.tech = civil.tech + grid.getResourceAmount()
+                grid.deductResourceAmount(grid.getResourceAmount())
+        if grid.getResourceAmount() <= 0:
+            civil.occupyingSpace.remove(grid)
+            civil.ownedSpace.append(grid)
+        if len(civil.frontierSpace) == 0 and len(civil.occupyingSpace) == 0:
+            civil.alive = False
+
+            break
 
 
 def civilEncounter(a, b):
 
     pass
+
+
+def war(a, b):
+
+    pass
+
+
+def cleanFrontierGrid(civil, univ):
+    for frontierGrid in civil.frontierSpace.copy():
+        expandGrid = univ.getExpandableGrid(frontierGrid)
+        if len(expandGrid) == 0:
+            civil.frontierSpace.remove(frontierGrid)

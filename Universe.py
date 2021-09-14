@@ -9,25 +9,42 @@ class Universe():
         self.cols = cols
         self.civilnum = civilnum
         # self.bg_map = [[Grid(row, col) for col in range(0, self.cols)] for row in range(0, self.rows)]
-        (mapR, blackholeR) = self.creatMap(rows, cols)
+        (mapR, blackholeR, resourceL, resourceS) = self.creatMap(rows, cols)
         self.bg_map = mapR
         self.blackhole_map = blackholeR
+        self.resourceL_map = resourceL
+        self.resourceS_map = resourceS
         self.civillist = []
         self.civildict = {}
 
         self.initializeCivil(civilnum)
 
+        # print("Life resources")
+        # for i in self.resourceL_map:
+        #     print(i.getResourceAmount(), end=", ")
+
+        # print("Science resources")
+        # for j in self.resourceS_map:
+        #     print(j.getResourceAmount(), end=", ")
+
     def creatMap(self, rows, cols):
         mapResult = []
         blackholeResult = []
+        resourceLResult = []
+        resourceSResult = []
+
         for row in range(0, rows):
             mapResult.append([])
             for col in range(0, cols):
                 grid = Grid(row, col)
+                if grid.getResourceType() == "L":
+                    resourceLResult.append(grid)
+                if grid.getResourceType() == "S":
+                    resourceSResult.append(grid)
                 if grid.Blackhole():
                     blackholeResult.append(grid)
                 mapResult[row].append(grid)
-        return mapResult, blackholeResult
+        return mapResult, blackholeResult, resourceLResult, resourceSResult
 
     def initializeCivil(self, civilnum):
         i = 0

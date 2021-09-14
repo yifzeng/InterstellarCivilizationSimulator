@@ -11,10 +11,10 @@ class Resource():
             r = random.randint(1, 1000)
             if r < 100:
                 self.type = "S"  # S: Science
-                self.amount = r / 10
-            elif 100 < r <= 750:
+                self.amount = r / 10000
+            elif 100 < r <= 500:
                 self.type = "L"  # L: Life support
-                self.amount = r / 15
+                self.amount = r / 100
             elif r == 999:
                 self.type = "B"
                 self.amount = 0
@@ -29,3 +29,6 @@ class Resource():
 
     def getAmount(self):
         return self.amount
+
+    def deductAmount(self, amount):
+        self.amount = self.amount - amount
