@@ -16,7 +16,9 @@ class Universe():
         self.resourceS_map = resourceS
         self.civillist = []
         self.civildict = {}
-
+        self.unitePair = {}
+        self.warPair = []
+        self.round = 0
         self.initializeCivil(civilnum)
 
         # print("Life resources")
@@ -93,6 +95,39 @@ class Universe():
             return False
         else:
             return True
+
+    def checkOwnerAround(self, grid):
+        result = []
+        (row, col) = grid.getCoordinate()
+        coll = col - 1
+        colr = col + 1
+        rowu = row - 1
+        rowd = row + 1
+        if coll >= 0 and self.isOccupied(self.getGrid(row, coll)):
+            result.append(self.getGrid(row, coll).owner)
+        if colr < self.cols and self.isOccupied(self.getGrid(row, colr)):
+            result.append(self.getGrid(row, colr).owner)
+        if rowu >= 0 and self.isOccupied(self.getGrid(rowu, col)):
+            result.append(self.getGrid(rowu, col).owner)
+        if rowd < self.rows and self.isOccupied(self.getGrid(rowd, col)):
+            result.append(self.getGrid(rowd, col).owner)
+
+        if coll >= 0 and rowu >= 0 and self.isOccupied(self.getGrid(rowu, coll)):
+            result.append(self.getGrid(rowu, coll).owner)
+        if colr < self.cols and rowu >= 0 and self.isOccupied(self.getGrid(rowu, colr)):
+            result.append(self.getGrid(rowu, colr).owner)
+        if coll >= 0 and rowd < self.rows and self.isOccupied(self.getGrid(rowd, coll)):
+            result.append(self.getGrid(rowd, coll).owner)
+        if colr < self.cols and rowd < self.rows and self.isOccupied(self.getGrid(rowd, colr)):
+            result.append(self.getGrid(rowd, colr).owner)
+
+        return result
+
+    def isOccupied(self, grid):
+        if grid.getOwner() is not None:
+            return True
+        else:
+            return False
 
 
 # u = Universe(100, 100, 3)

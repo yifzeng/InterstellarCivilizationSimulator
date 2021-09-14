@@ -18,13 +18,3 @@ def generateNumber(digit):
 
 def generateRandomNum(n):
     return random.choice(range(n))
-
-
-# cols = 3
-# rows = 5
-# # l = [[(row, col) for col in range(0, cols)] for row in range(0, rows)]
-# l = ['a', 'b', 'c', 'd']
-# for i in l.copy():
-#     print(i)
-#     l.remove(i)
-# print(l)

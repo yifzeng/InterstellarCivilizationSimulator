@@ -21,7 +21,7 @@ class Civilizaiton():
         self.ownedSpace = []
         self.frontierSpace = [grid]
         self.occupyingSpace = [grid]
-
+        self.absorbList = []
         self.init()
 
     def init(self):
@@ -31,7 +31,7 @@ class Civilizaiton():
         self.color = (random.randint(1, 255), random.randint(1, 255), random.randint(1, 255))
         if self.color == (200, 200, 200) or self.color == (255, 255, 255):
             self.color = (random.randint(1, 255), random.randint(1, 255), random.randint(1, 255))
-        self.life = 10
+        self.life = 20
         self.tech = 0.0001
         self.alive = True
         if self.character == "A":
@@ -45,6 +45,16 @@ class Civilizaiton():
             self.attack = self.attackCal()
 
         self.strength = self.strengthCal()
+
+    def absorb(self, b):
+        self.life = self.life + b.life
+        self.tech = self.tech + b.tech
+        for grid in b.ownedSpace:
+            grid.owner = self.id
+        self.ownedSpace = self.ownedSpace + b.ownedSpace
+        self.frontierSpace = self.frontierSpace + b.frontierSpace
+        self.occupyingSpace = self.occupyingSpace + b.occupyingSpace
+        self.absorbList = self.absorbList + b.absorbList
 
     def strengthCal(self):
         return round((self.life * self.tech), 8)
@@ -66,6 +76,9 @@ class Civilizaiton():
     def getDefense(self):
         self.defense = self.defenseCal()
         return self.defense
+
+    def getConsume(self):
+        return random.randint(5, 10)
 
     def display(self):
         return "id:%s character:%s life:%s tech:%s strength:%s attack:%s defense:%s" % (

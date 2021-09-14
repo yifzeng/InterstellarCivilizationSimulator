@@ -22,7 +22,7 @@ from pygame.locals import *
 
 pygame.init()
 size = width, height = 800, 600
-screen = pygame.display.set_mode(size)
+screen = pygame.display.set_mode(size, RESIZABLE, 32)
 pygame.display.set_caption("InterstellarCivilizationSimulator")
 clock = pygame.time.Clock()
 # 游戏循环标志变量
@@ -64,11 +64,10 @@ def draw_blackhole(univ):
 
 
 def main(civilnum, ROW, COL):
-    round = 0
     univ = Universe(ROW, COL, civilnum)
     global keep_going
     while keep_going:
-        round = round + 1
+        univ.round = univ.round + 1
         # 背景色填充
         screen.fill(bg_color)
 
