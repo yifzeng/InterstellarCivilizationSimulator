@@ -39,20 +39,35 @@ class Civilizaiton():
             self.blackholeTrans = 10
         elif self.character == "F":
             self.lifeConsume = 2
-            self.defense = 100
+            self.defense = self.defenseCal()
         else:
             self.lifeConsume = 4
-            self.attack = 200
+            self.attack = self.attackCal()
 
         self.strength = self.strengthCal()
 
     def strengthCal(self):
-        return round((self.life * self.tech), 6)
+        return round((self.life * self.tech), 8)
+
+    def attackCal(self):
+        return round(self.life * (1 + self.tech), 8)
+
+    def defenseCal(self):
+        return round(self.life * (1 + self.tech), 8)
 
     def getStrength(self):
         self.strength = self.strengthCal()
         return self.strength
 
+    def getAttack(self):
+        self.attack = self.attackCal()
+        return self.attack
+
+    def getDefense(self):
+        self.defense = self.defenseCal()
+        return self.defense
+
     def display(self):
         return "id:%s character:%s life:%s tech:%s strength:%s attack:%s defense:%s" % (
-            self.life, self.character, self.life, self.tech, self.strength, self.attack, self.defense)
+            self.id, self.character, round(self.life, 8), round(self.tech,
+                                                                8), self.strengthCal(), self.attackCal(), self.defenseCal())

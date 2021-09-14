@@ -11,7 +11,8 @@ def control(univ):
 
     if countAlive(univ) == 0:
         for c in civils:
-            c.display()
+            print(c.id + " has taken " + str(len(c.ownedSpace)))
+            print(c.display())
         return False
     return True
 
@@ -57,15 +58,16 @@ def occupyProcess(civil, univ):
 
         if grid.getResourceAmount() > 0:
             if grid.getResourceType() == "L":
-                if grid.getResourceAmount() >= civil.getStrength():
-                    civil.life = civil.life + civil.getStrength()
-                    grid.deductResourceAmount(civil.getStrength())
+                if grid.getResourceAmount() >= civil.tech:
+                    civil.life = civil.life + civil.tech
+                    grid.deductResourceAmount(civil.tech)
                 else:
-                    civil.life = civil.life + civil.getStrength() - grid.getResourceAmount()
+                    civil.life = civil.life + grid.getResourceAmount()
                     grid.deductResourceAmount(grid.getResourceAmount())
             elif grid.getResourceType() == "S":
                 civil.tech = civil.tech + grid.getResourceAmount()
                 grid.deductResourceAmount(grid.getResourceAmount())
+
         if grid.getResourceAmount() <= 0:
             civil.occupyingSpace.remove(grid)
             civil.ownedSpace.append(grid)

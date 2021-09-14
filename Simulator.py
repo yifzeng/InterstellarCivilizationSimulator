@@ -81,14 +81,14 @@ def main(civilnum, ROW, COL):
 
         pygame.display.flip()  # 刷新屏幕
         # 帧速率
-        clock.tick(10)
+        clock.tick(1000)
 
     pygame.quit()
 
 
 # 定义格子的行列
-COL = 100
-ROW = 100
+COL = 200
+ROW = 200
 civilnum = 10
 # 网格的宽度和高度
 cell_width = width / COL
