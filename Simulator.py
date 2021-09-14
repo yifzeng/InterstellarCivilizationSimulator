@@ -46,12 +46,13 @@ def draw_grid(ROW, COL):
 def draw_rect(univ):
 
     for c in univ.civillist:
-        for grid in c.ownedSpace:
-            (row, col) = grid.getCoordinate()
-            left = col * cell_width
-            top = row * cell_height
-            # 绘制
-            pygame.draw.rect(screen, c.color, (left, top, cell_width, cell_height))
+        if c.alive:
+            for grid in c.ownedSpace:
+                (row, col) = grid.getCoordinate()
+                left = col * cell_width
+                top = row * cell_height
+                # 绘制
+                pygame.draw.rect(screen, c.color, (left, top, cell_width, cell_height))
 
 
 def draw_blackhole(univ):
@@ -68,6 +69,7 @@ def main(civilnum, ROW, COL):
     global keep_going
     while keep_going:
         univ.round = univ.round + 1
+        print("----------------------- round " + str(univ.round) + " -----------------------")
         # 背景色填充
         screen.fill(bg_color)
 

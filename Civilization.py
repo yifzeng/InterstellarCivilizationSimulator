@@ -47,6 +47,7 @@ class Civilizaiton():
         self.strength = self.strengthCal()
 
     def absorb(self, b):
+        print(self.id + " absorb method")
         self.life = self.life + b.life
         self.tech = self.tech + b.tech
         for grid in b.ownedSpace:
@@ -55,6 +56,7 @@ class Civilizaiton():
         self.frontierSpace = self.frontierSpace + b.frontierSpace
         self.occupyingSpace = self.occupyingSpace + b.occupyingSpace
         self.absorbList = self.absorbList + b.absorbList
+        b.alive = False
 
     def strengthCal(self):
         return round((self.life * self.tech), 8)

@@ -7,8 +7,9 @@ def control(univ):
     civils = univ.civillist
     for c in civils:
         if c.alive:
-            civilExpand(c, univ)
-            occupyProcess(c, univ)
+            for i in range(len(c.absorbList) + 1):
+                civilExpand(c, univ)
+                occupyProcess(c, univ)
 
     civilUnite(univ)
 
@@ -39,7 +40,7 @@ def countAlive(univ):
 def civilExpand(civil, univ):
 
     while len(civil.frontierSpace) > 0:
-        random.shuffle(civil.frontierSpace)
+        # random.shuffle(civil.frontierSpace)
         frontierGrid = random.choice(civil.frontierSpace)
         expandGrid = univ.getExpandableGrid(frontierGrid)
         if len(expandGrid) > 0:
@@ -112,10 +113,9 @@ def civilEncounter(a, b, univ):
 
 
 def civilUnite(univ):
+    delete = []
     if univ.unitePair:
-        print("+++++++++++++++++++++ civilUnite +++++++++++++++++++++")
-        print(univ.unitePair.items)
-        for a, b, totaltech, increment in univ.unitePair.values:
+        for key, (a, b, totaltech, increment) in univ.unitePair.items():
 
             if (a.tech + b.tech) - totaltech >= increment:
                 if (b.life > a.life):
@@ -124,6 +124,9 @@ def civilUnite(univ):
                 b.alive = False
                 a.absorb(b)
                 print("Unite happen in round " + str(univ.round) + " ," + a.id + " absorb " + b.id)
+                delete.append(key)
+        for i in delete:
+            del univ.unitePair[i]
 
 
 def civilWar(univ):
