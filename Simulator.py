@@ -1,5 +1,6 @@
 import sys
 import time
+import logging
 
 import pygame
 from pygame.locals import *
@@ -69,7 +70,7 @@ def main(civilnum, ROW, COL):
     global keep_going
     while keep_going:
         univ.round = univ.round + 1
-        print("----------------------- round " + str(univ.round) + " -----------------------")
+        #  print("----------------------- round " + str(univ.round) + " -----------------------")
         # 背景色填充
         screen.fill(bg_color)
 
@@ -88,8 +89,8 @@ def main(civilnum, ROW, COL):
 
 
 # 定义格子的行列
-COL = 200
-ROW = 200
+COL = 100
+ROW = 100
 civilnum = 10
 # 网格的宽度和高度
 cell_width = width / COL

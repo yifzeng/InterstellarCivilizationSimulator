@@ -18,3 +18,9 @@ def generateNumber(digit):
 
 def generateRandomNum(n):
     return random.choice(range(n))
+
+
+class T():
+    def __init__(self, name):
+
+        self.name = name

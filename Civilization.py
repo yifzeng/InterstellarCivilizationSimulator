@@ -1,7 +1,17 @@
+import logging
 import Character
 import Tools
 from Grid import Grid
 import random
+
+logging.basicConfig(
+    level=logging.DEBUG,  #控制台打印的日志级别
+    filename='new.log',
+    filemode='w',  ##模式，有w和a，w就是写模式，每次都会重新写日志，覆盖之前的日志
+    #a是追加模式，默认如果不写的话，就是追加模式
+    #format='%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s'
+    #日志格式
+    format='%(asctime)s - [line:%(lineno)d] - %(levelname)s: %(message)s')
 
 
 class Civilizaiton():
@@ -47,10 +57,14 @@ class Civilizaiton():
         self.strength = self.strengthCal()
 
     def absorb(self, b):
-        print(self.id + " absorb method")
+        logging.info(self.id + " absorb method")
         self.life = self.life + b.life
         self.tech = self.tech + b.tech
         for grid in b.ownedSpace:
+            grid.owner = self.id
+        for grid in b.frontierSpace:
+            grid.owner = self.id
+        for grid in b.occupyingSpace:
             grid.owner = self.id
         self.ownedSpace = self.ownedSpace + b.ownedSpace
         self.frontierSpace = self.frontierSpace + b.frontierSpace
@@ -59,7 +73,7 @@ class Civilizaiton():
         b.alive = False
 
     def strengthCal(self):
-        return round((self.life * self.tech), 8)
+        return self.life
 
     def attackCal(self):
         return round(self.life * (1 + self.tech), 8)

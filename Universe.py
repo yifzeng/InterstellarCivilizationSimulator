@@ -17,7 +17,7 @@ class Universe():
         self.civillist = []
         self.civildict = {}
         self.unitePair = {}
-        self.warPair = []
+        self.warPair = {}
         self.round = 0
         self.initializeCivil(civilnum)
 
