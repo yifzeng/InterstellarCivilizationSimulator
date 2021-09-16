@@ -22,7 +22,7 @@ def control(univ):
                 civilExpand(c, univ)
                 occupyProcess(c, univ)
 
-    #civilUnite(univ)
+    civilUnite(univ)
     civilWar(univ)
 
     if countAlive(univ) == 0:
@@ -119,7 +119,7 @@ def civilEncounter(a, b, univ):
     elif {a.character, b.character}.issubset(["F", "K"]):
         if (a.id + b.id) not in univ.warPair.keys() and (b.id + a.id) not in univ.warPair.keys():
             univ.warPair[a.id + b.id] = ((a, a.life), (b, b.life))
-            logging.info("add warPair: " + a.id + " " + b.id)
+            logging.info("add warPair: " + a.id + "" + b.id)
 
     elif a.character == "A":
         civilRunaway(a)
@@ -149,32 +149,51 @@ def civilWar(univ):
             random.shuffle(l)
             (a, alife) = l[0]
             (b, blife) = l[1]
-            if {a.character, b.character}.issubset(["F", "K"]):
-                logging.info(a.id + "  before  life:" + str(a.life))
+            if {a.character, b.character}.issubset(["K"]):
                 a.life = a.life * (1 - round(b.tech / 1, 6)) - 1
-                logging.info(a.id + "  after   life:                                " + str(a.life))
                 b.life = b.life * (1 - round(a.tech / 1, 6)) - 1
+                if a.life <= 0 or b.life <= 0:
+                    if a.life <= 0:
+                        winner = b
+                        loser = a
+                    elif b.life <= 0:
+                        winner = a
+                        loser = b
+                    loser.alive = False
+                    loser.life = alife
+                    winner.absorbList.append(loser.id)
+                    winner.absorb(loser)
+                    logging.info(key + " War end in round " + str(univ.round) + " ," + winner.id + " absorb " + loser.id)
+                    delete.append(key)
+            elif {a.character, b.character}.issubset(["F", "K"]):
+                if a.character == "F":
+                    fc = a
+                    kc = b
+                else:
+                    fc = b
+                    kc = a
 
-                if a.life <= 0:
-                    a.alive = False
-                    a.life = alife
-                    b.absorbList.append(a.id)
-                    b.absorb(a)
-                    winner = b.id
-                    loser = a.id
-                    logging.info(key + " War end in round " + str(univ.round) + " ," + winner + " absorb " + loser)
+                logging.info(fc.id + "  before  life:" + str(fc.life))
+                fc.life = fc.life * (1 - round(kc.tech / 1, 6)) - 1
+                logging.info(fc.id + "  after   life:                                " + str(fc.life))
+
+                logging.info(kc.id + "  before  life:" + str(kc.life))
+                kc.life = kc.life * (1 - round(kc.tech / 1, 6)) - 1
+                logging.info(kc.id + "  after   life:                                " + str(kc.life))
+
+                if fc.life <= 0 or kc.life <= 0:
+                    if fc.life <= 0:
+                        winner = kc
+                        loser = fc
+                    elif kc.life <= 0:
+                        winner = fc
+                        loser = kc
+                    loser.alive = False
+                    loser.life = alife
+                    winner.absorbList.append(loser.id)
+                    winner.absorb(loser)
+                    logging.info(key + " War end in round " + str(univ.round) + " ," + winner.id + " absorb " + loser.id)
                     delete.append(key)
-                #  logging.info(str(len(a.ownedSpace)) + " " + str(len(a.frontierSpace)) + " " + str(len(a.occupyingSpace)))
-                elif b.life <= 0:
-                    b.alive = False
-                    b.life = blife
-                    a.absorbList.append(b.id)
-                    a.absorb(b)
-                    winner = a.id
-                    loser = b.id
-                    logging.info(key + " War end in round " + str(univ.round) + " ," + winner + " absorb " + loser)
-                    delete.append(key)
-                #   logging.info(str(len(b.ownedSpace)) + " " + str(len(b.frontierSpace)) + " " + str(len(b.occupyingSpace)))
 
         for i in delete:
             logging.info("delete id :" + i)

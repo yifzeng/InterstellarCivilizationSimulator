@@ -89,9 +89,9 @@ def main(civilnum, ROW, COL):
 
 
 # 定义格子的行列
-COL = 100
-ROW = 100
-civilnum = 10
+COL = 200
+ROW = 200
+civilnum = 20
 # 网格的宽度和高度
 cell_width = width / COL
 cell_height = height / ROW
