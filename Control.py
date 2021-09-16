@@ -136,6 +136,7 @@ def civilUnite(univ):
                 a.absorbList.append(b.id)
                 a.absorb(b)
                 logging.info("Unite happen in round " + str(univ.round) + " ," + a.id + " absorb " + b.id)
+                print("Unite happen in round " + str(univ.round) + " ," + a.id + " absorb " + b.id)
                 delete.append(key)
         for i in delete:
             del univ.unitePair[i]
@@ -150,8 +151,8 @@ def civilWar(univ):
             (a, alife) = l[0]
             (b, blife) = l[1]
             if {a.character, b.character}.issubset(["K"]):
-                a.life = a.life * (1 - round(b.tech / 1, 6)) - 1
-                b.life = b.life * (1 - round(a.tech / 1, 6)) - 1
+                a.life = a.life * (1 - round(b.tech / 10, 6)) - 1
+                b.life = b.life * (1 - round(a.tech / 10, 6)) - 1
                 if a.life <= 0 or b.life <= 0:
                     if a.life <= 0:
                         winner = b
@@ -164,6 +165,7 @@ def civilWar(univ):
                     winner.absorbList.append(loser.id)
                     winner.absorb(loser)
                     logging.info(key + " War end in round " + str(univ.round) + " ," + winner.id + " absorb " + loser.id)
+                    print(key + " War end in round " + str(univ.round) + " ," + winner.id + " absorb " + loser.id)
                     delete.append(key)
             elif {a.character, b.character}.issubset(["F", "K"]):
                 if a.character == "F":
@@ -174,11 +176,11 @@ def civilWar(univ):
                     kc = a
 
                 logging.info(fc.id + "  before  life:" + str(fc.life))
-                fc.life = fc.life * (1 - round(kc.tech / 1, 6)) - 1
+                fc.life = fc.life * (1 - round(kc.tech / 10, 6)) - 1
                 logging.info(fc.id + "  after   life:                                " + str(fc.life))
 
                 logging.info(kc.id + "  before  life:" + str(kc.life))
-                kc.life = kc.life * (1 - round(kc.tech / 1, 6)) - 1
+                kc.life = kc.life * (1 - round(kc.tech / 10, 6)) - 1
                 logging.info(kc.id + "  after   life:                                " + str(kc.life))
 
                 if fc.life <= 0 or kc.life <= 0:
@@ -193,6 +195,7 @@ def civilWar(univ):
                     winner.absorbList.append(loser.id)
                     winner.absorb(loser)
                     logging.info(key + " War end in round " + str(univ.round) + " ," + winner.id + " absorb " + loser.id)
+                    print(key + " War end in round " + str(univ.round) + " ," + winner.id + " absorb " + loser.id)
                     delete.append(key)
 
         for i in delete:
