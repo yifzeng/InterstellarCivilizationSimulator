@@ -151,8 +151,8 @@ def civilWar(univ):
             (a, alife) = l[0]
             (b, blife) = l[1]
             if {a.character, b.character}.issubset(["K"]):
-                a.life = a.life * (1 - round(b.tech / 10, 6)) - 1
-                b.life = b.life * (1 - round(a.tech / 10, 6)) - 1
+                a.life = a.life - b.life * b.tech / 10
+                b.life = b.life - a.life * a.tech / 10
                 if a.life <= 0 or b.life <= 0:
                     if a.life <= 0:
                         winner = b
@@ -169,29 +169,30 @@ def civilWar(univ):
                     delete.append(key)
             elif {a.character, b.character}.issubset(["F", "K"]):
                 if a.character == "F":
-                    fc = a
-                    kc = b
+                    fc, kc = a, b
                 else:
-                    fc = b
-                    kc = a
+                    fc, kc = b, a
+
+                fclife, kclife = fc.life, kc.life
 
                 logging.info(fc.id + "  before  life:" + str(fc.life))
-                fc.life = fc.life * (1 - round(kc.tech / 10, 6)) - 1
+                fc.life = fc.life - kc.life * kc.tech / 10
                 logging.info(fc.id + "  after   life:                                " + str(fc.life))
 
                 logging.info(kc.id + "  before  life:" + str(kc.life))
-                kc.life = kc.life * (1 - round(kc.tech / 10, 6)) - 1
+                kc.life = kc.life - kc.life * kc.tech / 20
                 logging.info(kc.id + "  after   life:                                " + str(kc.life))
 
                 if fc.life <= 0 or kc.life <= 0:
                     if fc.life <= 0:
-                        winner = kc
-                        loser = fc
+                        winner, loser = kc, fc
+                        loserlife = fclife
                     elif kc.life <= 0:
-                        winner = fc
-                        loser = kc
+                        winner, loser = fc, kc
+                        loserlife = kclife
+
                     loser.alive = False
-                    loser.life = alife
+                    loser.life = loserlife / 2
                     winner.absorbList.append(loser.id)
                     winner.absorb(loser)
                     logging.info(key + " War end in round " + str(univ.round) + " ," + winner.id + " absorb " + loser.id)
